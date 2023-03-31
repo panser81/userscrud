@@ -42,6 +42,7 @@ public class EditUserServlet extends HttpServlet {
 
             UserDTO userDTO = userService.getUser(parsedId);
 
+            String checked = userDTO.getIsActive() == 1 ? "checked" : "";
             String html = """
                  <html>
                      <body>
@@ -55,7 +56,7 @@ public class EditUserServlet extends HttpServlet {
                              <label for="age">Age</label>
                              <input type="number" id="age" name="age" value="%s" ><br/>
                              <label for="age">Is active</label>
-                             <input type="checkbox" id= "isactive" name="isactive"><br/>
+                             <input type="checkbox" id= "isactive" name="isactive" %s><br/>
                              <label for="address">Address</label>
                              <label for="address">Address</label>
                              <input type="text" id="address" name="address" value="%s"><br/>
@@ -65,7 +66,7 @@ public class EditUserServlet extends HttpServlet {
                          </form>
                      </body>
                  </html>
-                 """.formatted(userDTO.getId(), userDTO.getUsername(), userDTO.getAge(), userDTO.getAddress(), userDTO.getTelephone());
+                 """.formatted(userDTO.getId(), userDTO.getUsername(), userDTO.getAge(), checked, userDTO.getAddress(), userDTO.getTelephone());
 
             try (PrintWriter writer = response.getWriter()) {
                 writer.println(html);
