@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete user</title>
+</head>
+<body>
+<p>Do you want to delete the user?</p>
+<form action="users/delete" method="post">
+    <input type="hidden" name="id" id="id" value="">
+    <input type="submit" value="Submit">
+</form>
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const id = urlParams.get('id');
+    let element = document.getElementById("id");
+    element.value = id;
+</script>
+</body>
+</html>
