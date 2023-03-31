@@ -44,9 +44,9 @@ public class AddUserServlet extends HttpServlet {
         String age = request.getParameter(UserConstants.AGE_COLUMN_NAME);
         userDTO.setAge(Integer.parseInt(age));
 
-        String isActive = request.getParameter(UserConstants.ISACTIVE_COLUMN_NAME);
+        boolean isActive = request.getParameter(UserConstants.ISACTIVE_COLUMN_NAME) != null;
 
-        userDTO.setIsActive((short) (isActive == "on" ? 1 : 0));
+        userDTO.setIsActive((short)(isActive ? 1 : 0));
 
         String address = request.getParameter(UserConstants.ADDRESS_COLUMN_NAME);
         userDTO.setAddress(address);

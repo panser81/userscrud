@@ -1,5 +1,6 @@
 package com.gmail.spanteleyko.web.services.impl;
 
+import com.gmail.spanteleyko.web.exceptions.TableDeleteException;
 import com.gmail.spanteleyko.web.exceptions.UserDeleteException;
 import com.gmail.spanteleyko.web.repositories.ConnectionRepository;
 import com.gmail.spanteleyko.web.repositories.UserRepository;
@@ -180,6 +181,9 @@ public class UserServiceImpl implements UserService {
             } catch (SQLException e) {
                 connection.rollback();
                 logger.error(e.getMessage(), e);
+            } catch (TableDeleteException e) {
+                logger.error(e.getMessage(), e);
+                return false;
             }
             return idDeleted;
 

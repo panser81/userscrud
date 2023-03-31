@@ -1,6 +1,7 @@
 package com.gmail.spanteleyko.web;
 
 import com.gmail.spanteleyko.web.constants.UserConstants;
+import com.gmail.spanteleyko.web.exceptions.UserDeleteException;
 import com.gmail.spanteleyko.web.exceptions.UserNotExistsException;
 import com.gmail.spanteleyko.web.services.UserService;
 import com.gmail.spanteleyko.web.services.impl.UserServiceImpl;
@@ -43,6 +44,9 @@ public class DeleteUserServlet extends HttpServlet {
             response.sendRedirect("../error.html");
 
         } catch (UserNotExistsException e) {
+            logger.error(e.getMessage(), e);
+            response.sendRedirect("../error.html");
+        } catch (UserDeleteException e) {
             logger.error(e.getMessage(), e);
             response.sendRedirect("../error.html");
         }
