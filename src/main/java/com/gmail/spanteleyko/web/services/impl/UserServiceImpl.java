@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
             connection.setAutoCommit(false);
 
             try {
-            //    userRepository.checkAndCreateDbTables(connection);
+                userRepository.checkAndCreateDbTables(connection);
                 connection.commit();
             } catch (SQLException e) {
                 connection.rollback();
