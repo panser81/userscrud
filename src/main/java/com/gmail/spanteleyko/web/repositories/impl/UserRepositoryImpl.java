@@ -34,27 +34,10 @@ public class UserRepositoryImpl implements UserRepository {
                 inner join USER_INFORMATION ui on u.id=ui.user_id;""";
 
         try (PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
+             ResultSet resultSet = statement.executeQuery()) {
 
-            while (rs.next()) {
-                User user = new User();
-                int id = rs.getInt(UserConstants.ID_COLUMN_NAME);
-                user.setId(id);
-
-                int age = rs.getInt(UserConstants.AGE_COLUMN_NAME);
-                user.setAge(age);
-
-                String username = rs.getString(UserConstants.USERNAME_COLUMN_NAME);
-                user.setUsername(username);
-
-                short isActive = rs.getShort(UserConstants.ISACTIVE_DB_COLUMN_NAME);
-                user.setIsActive(isActive);
-
-                String address = rs.getString(UserConstants.ADDRESS_COLUMN_NAME);
-                user.setAddress(address);
-
-                String telephone = rs.getString(UserConstants.TELEPHONE_COLUMN_NAME);
-                user.setTelephone(telephone);
+            while (resultSet.next()) {
+                User user = getUser(resultSet);
 
                 usersList.add(user);
             }
@@ -77,28 +60,10 @@ public class UserRepositoryImpl implements UserRepository {
 
             preparedStatement.setInt(1, userId);
 
-            try (ResultSet rs = preparedStatement.executeQuery()) {
-                while (rs.next()) {
-                    User user = new User();
-                    int id = rs.getInt(UserConstants.ID_COLUMN_NAME);
-                    user.setId(id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    User user = getUser(resultSet);
 
-                    int age = rs.getInt(UserConstants.AGE_COLUMN_NAME);
-                    user.setAge(age);
-
-                    String username = rs.getString(UserConstants.USERNAME_COLUMN_NAME);
-                    user.setUsername(username);
-
-                    short isActive = rs.getShort(UserConstants.ISACTIVE_DB_COLUMN_NAME);
-                    user.setIsActive(isActive);
-
-                    String address = rs.getString(UserConstants.ADDRESS_COLUMN_NAME);
-                    user.setAddress(address);
-
-                    String telephone = rs.getString(UserConstants.TELEPHONE_COLUMN_NAME);
-                    user.setTelephone(telephone);
-
-                    preparedStatement.close();
                     return user;
                 }
             }
@@ -333,5 +298,28 @@ public class UserRepositoryImpl implements UserRepository {
             logger.error(e.getMessage(), e);
         }
         return false;
+    }
+
+    private User getUser(ResultSet resultSet) throws SQLException {
+        User user = new User();
+        int id = resultSet.getInt(UserConstants.ID_COLUMN_NAME);
+        user.setId(id);
+
+        int age = resultSet.getInt(UserConstants.AGE_COLUMN_NAME);
+        user.setAge(age);
+
+        String username = resultSet.getString(UserConstants.USERNAME_COLUMN_NAME);
+        user.setUsername(username);
+
+        short isActive = resultSet.getShort(UserConstants.ISACTIVE_DB_COLUMN_NAME);
+        user.setIsActive(isActive);
+
+        String address = resultSet.getString(UserConstants.ADDRESS_COLUMN_NAME);
+        user.setAddress(address);
+
+        String telephone = resultSet.getString(UserConstants.TELEPHONE_COLUMN_NAME);
+        user.setTelephone(telephone);
+
+        return user;
     }
 }
